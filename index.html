@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>รายงานสรุปการขอเปลี่ยนแปลงข้อมูลส่วนตัว</title>
+<style>
+  :root {
+    --bg:#f4f7fb; --card:#ffffff; --text:#0f172a; --muted:#64748b; --line:#d9e2ec;
+    --navy:#0f172a; --teal:#0f766e; --green:#15803d; --green-soft:#eaf8ef; --blue:#2563eb;
+    --amber:#b45309; --amber-soft:#fff4df; --slate:#94a3b8; --red:#b91c1c; --shadow:0 10px 30px rgba(15,23,42,.08);
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans Thai',sans-serif; background:var(--bg); color:var(--text); line-height:1.45; }
+  .wrap { max-width:1280px; margin:0 auto; padding:22px; }
+  .hero-shell { background:linear-gradient(180deg,#eef3f6 0%, #f4f7fb 100%); border-radius:34px; padding:18px 18px 8px; border:1px solid #d7dee7; }
+  .hero { background:linear-gradient(135deg,#eaf7ee,#d8f1e0 55%, #c5ead2 100%); border:2px solid #6ed39a; border-radius:22px; padding:26px 30px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.45); }
+  .hero .eyebrow { font-size:14px; font-weight:800; color:#177245; letter-spacing:.08em; text-transform:uppercase; margin-bottom:14px; }
+  .hero h2 { margin:0 0 12px; font-size:30px; line-height:1.2; color:#14532d; }
+  .hero p { margin:0 0 10px; color:#1f5133; font-size:16px; }
+  .hero-grid { display:grid; grid-template-columns:1.1fr .9fr; gap:18px; align-items:start; }
+  .impact-box { background:rgba(255,255,255,.62); border:1px solid rgba(22,101,52,.15); border-radius:18px; padding:16px 18px; }
+  .impact-box .big { font-size:40px; font-weight:900; color:#166534; line-height:1; margin-bottom:6px; }
+  .impact-box .label { font-size:13px; color:#166534; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+  .impact-box ul { margin:10px 0 0 18px; padding:0; color:#1f5133; font-size:14px; }
+  .header-band { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; padding:18px 0 10px; }
+  .header-left .mini { color:#0f766e; font-weight:800; letter-spacing:.12em; font-size:12px; text-transform:uppercase; }
+  .header-left h1 { margin:8px 0 6px; font-size:28px; line-height:1.15; }
+  .sub { color:var(--muted); font-size:14px; }
+  .date-pill { background:#0f172a; color:white; border-radius:999px; padding:10px 18px; font-weight:800; min-width:132px; text-align:center; box-shadow:var(--shadow); }
+  .rule { height:1px; background:#d8e1eb; margin:8px 0 18px; }
+  .kpis { display:grid; grid-template-columns:repeat(4,minmax(180px,1fr)); gap:16px; }
+  .kpi-card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:18px 20px; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+  .kpi-card:before { content:""; position:absolute; left:0; top:0; right:0; height:5px; }
+  .kpi-card.blue:before { background:#3b82f6; }
+  .kpi-card.teal:before { background:#0f766e; }
+  .kpi-card.green:before { background:#15803d; }
+  .kpi-card.amber:before { background:#b45309; }
+  .kpi-title { color:#475569; font-size:14px; margin-bottom:8px; }
+  .kpi-value { font-size:48px; line-height:1; font-weight:900; letter-spacing:-.03em; }
+  .kpi-card.blue .kpi-value { color:#2563eb; }
+  .kpi-card.teal .kpi-value { color:#0f766e; }
+  .kpi-card.green .kpi-value { color:#15803d; }
+  .kpi-card.amber .kpi-value { color:#b45309; }
+  .kpi-sub { margin-top:8px; color:#64748b; font-size:13px; }
+  .chip { display:inline-block; margin-top:10px; border-radius:999px; padding:5px 11px; font-size:12px; font-weight:800; }
+  .chip.teal { background:#d9f3ef; color:#0f766e; }
+  .chip.green { background:#e6f7ea; color:#15803d; }
+  .chip.amber { background:#fff1dc; color:#b45309; }
+  .grid-2 { display:grid; grid-template-columns:1.18fr .82fr; gap:18px; margin-top:20px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:20px; box-shadow:var(--shadow); }
+  .section-kicker { color:#94a3b8; font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:900; margin-bottom:10px; }
+  h3 { margin:0 0 12px; font-size:22px; }
+  .bar-item { margin-bottom:14px; }
+  .bar-head { display:flex; justify-content:space-between; gap:12px; margin-bottom:6px; font-size:14px; }
+  .bar-track { width:100%; height:16px; background:#e8eef5; border-radius:999px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:999px; }
+  .note { color:var(--muted); font-size:13px; margin-top:10px; }
+  .table-wrap { overflow:auto; max-height:74vh; border:1px solid var(--line); border-radius:16px; background:white; }
+  table { width:100%; border-collapse:separate; border-spacing:0; }
+  thead th { position:sticky; top:0; background:#eef3f8; z-index:2; font-size:13px; color:#334155; text-align:left; padding:12px 10px; border-bottom:1px solid var(--line); }
+  tbody td { padding:10px; border-bottom:1px solid #edf2f7; font-size:14px; vertical-align:top; }
+  tbody tr:hover { background:#fafcff; }
+  .num { text-align:right; white-space:nowrap; }
+  .pending-high { color:#b91c1c; }
+  .pending-mid { color:#b45309; }
+  .pending-low { color:#166534; }
+  .split-mini { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:12px; }
+  .mini-card { border:1px solid var(--line); border-radius:16px; padding:14px; background:#f8fafc; }
+  .mini-card h4 { margin:0 0 8px; font-size:15px; }
+  .mini-card .big { font-size:28px; font-weight:900; margin-bottom:4px; }
+  .footer-note { margin-top:14px; color:#64748b; font-size:12px; }
+  @media (max-width: 980px) {
+    .hero-grid, .kpis, .grid-2 { grid-template-columns:1fr; }
+    .header-band { flex-direction:column; align-items:flex-start; }
+    .date-pill { align-self:flex-start; }
+    .hero h2 { font-size:24px; }
+    .kpi-value { font-size:38px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero-shell">
+<div class="hero">
+<div class="eyebrow">CRITICAL · HR TECH IMPLEMENTATION · DATA MASTER CENTER</div>
+<div class="hero-grid">
+<div>
+<h2>คุณภาพข้อมูลบุคลากรส่งผลโดยตรงต่อความแม่นยำของรายงานผู้บริหาร, HR Analytics และการนำ AI ไปใช้งาน</h2>
+<p>รายงานฉบับนี้อัปเดตจากข้อมูลล่าสุดที่เชื่อมระหว่าง <strong>emp_data_all</strong> และรายการ <strong>ขอเปลี่ยนแปลงข้อมูลส่วนตัว</strong> เพื่อใช้ติดตามความครบถ้วนของข้อมูลพนักงานทั้งองค์กร</p>
+<p><strong>ขอความร่วมมือทุกหน่วยงานเร่งติดตามพนักงานที่ยังไม่ดำเนินการ</strong> เพื่อให้ข้อมูล Master Data ถูกต้อง ครบถ้วน และพร้อมใช้สำหรับการตัดสินใจเชิงกลยุทธ์</p>
+</div>
+<div class="impact-box">
+<div class="label">Action required now</div>
+<div class="big">627</div>
+<div style="font-weight:700;color:#166534;">คนยังคงเหลือติดตาม (64.8% ของ Active)</div>
+<ul>
+<li>Active ทั้งหมด 968 คน</li>
+<li>ข้อมูลครบถ้วนแล้ว 164 คน</li>
+<li>ยื่นคำขอแล้ว 177 คน / 183 รายการ</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="header-band">
+<div class="header-left">
+<div class="mini">HR ANALYTICS · EXECUTIVE REPORT</div>
+<h1>สรุปการขอเปลี่ยนแปลงข้อมูลส่วนตัว</h1>
+<div class="sub">ณ วันที่ 8 เมษายน 2569 · พนักงาน Active ทั้งหมด 968 คน</div>
+</div>
+<div class="date-pill">8 Apr 2026</div>
+</div>
+</div>
+<div class="rule"></div>
+<div class="kpis">
+<div class="kpi-card blue">
+<div class="kpi-title">พนักงาน Active ทั้งหมด</div>
+<div class="kpi-value">968</div>
+<div class="kpi-sub">คน (unique / ตำแหน่งหลัก)</div>
+</div>
+<div class="kpi-card teal">
+<div class="kpi-title">ข้อมูล Finished แล้ว ✓</div>
+<div class="kpi-value">164</div>
+<div class="kpi-sub">คน — ข้อมูลครบถ้วน ไม่ต้องดำเนินการ</div>
+<div class="chip teal">16.9% ของ Active</div>
+</div>
+<div class="kpi-card green">
+<div class="kpi-title">ยื่นขอเปลี่ยนแปลงข้อมูล</div>
+<div class="kpi-value">177</div>
+<div class="kpi-sub">คน / 183 รายการ</div>
+<div class="chip green">18.3% ของ Active</div>
+</div>
+<div class="kpi-card amber">
+<div class="kpi-title">คงเหลือ — ยังไม่ดำเนินการ</div>
+<div class="kpi-value">627</div>
+<div class="kpi-sub">คน (Unfinish ที่ยังไม่ยื่น)</div>
+<div class="chip amber">64.8% ของ Active</div>
+</div>
+</div>
+<div class="grid-2">
+<div class="card">
+<div class="section-kicker">Completion overview</div>
+<h3>ภาพรวมสัดส่วน</h3>
+<div class="bar-item">
+<div class="bar-head"><span>Finished</span><strong>164 คน (16.9%)</strong></div>
+<div class="bar-track"><div class="bar-fill" style="width:16.9%;background:#10b981;"></div></div>
+</div>
+<div class="bar-item">
+<div class="bar-head"><span>Submitted</span><strong>177 คน (18.3%)</strong></div>
+<div class="bar-track"><div class="bar-fill" style="width:18.3%;background:#3b82f6;"></div></div>
+</div>
+<div class="bar-item">
+<div class="bar-head"><span>Pending</span><strong>627 คน (64.8%)</strong></div>
+<div class="bar-track"><div class="bar-fill" style="width:64.8%;background:#f59e0b;"></div></div>
+</div>
+<div class="note">สูตรคำนวณ Pending = Active - Finished - Submitted (แบบ unique คน) และใช้ข้อมูลล่าสุดจากไฟล์อัปโหลดชุดนี้</div>
+<div class="split-mini">
+<div class="mini-card">
+<h4>สถานะคำขอ</h4>
+<table>
+<tbody>
+<tr><td>อนุมัติ</td><td class="num"><strong>52</strong></td></tr>
+<tr><td>รออนุมัติ</td><td class="num"><strong>120</strong></td></tr>
+<tr><td>ร่าง</td><td class="num"><strong>11</strong></td></tr>
+<tr><td>ยกเลิก</td><td class="num"><strong>4</strong></td></tr>
+</tbody>
+</table>
+</div>
+<div class="mini-card">
+<h4>สรุปข้อมูลคำขอ</h4>
+<div class="big">183</div>
+<div class="sub">เอกสารทั้งหมดในไฟล์คำขอ</div>
+<div class="footer-note">พนักงานที่ยื่นคำขอซ้ำหลายรายการ จะนับเป็น 1 คนใน KPI Submitted</div>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="section-kicker">Follow-up priority</div>
+<h3>Top 10 คงเหลือติดตามสูงสุด</h3>
+<div class="table-wrap" style="max-height:420px;">
+<table>
+<thead>
+<tr>
+<th>แผนก</th>
+<th>บริษัท</th>
+<th>Location</th>
+<th class="num">Pending</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ฝ่าย โรงงานสายผลิตไบโอดีเซล</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>กบินทร์บุรี</td>
+<td class="num pending-high"><strong>103</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย วิศวกรรมและการผลิต</td>
+<td>บริษัท ไมน์ โมบิลิตี คอร์ปอเรชั่น จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num pending-high"><strong>32</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการประกอบ</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num pending-high"><strong>27</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการเคลือบและทำสี</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num pending-high"><strong>20</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย การผลิต</td>
+<td>บริษัท อีเอ ไบโอ อินโนเวชั่น จำกัด</td>
+<td>ระยอง</td>
+<td class="num pending-high"><strong>20</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย วิศวกรรมและการบำรุงรักษา</td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num pending-mid"><strong>19</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการเชื่อม</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num pending-mid"><strong>18</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และบำรุงรักษา-นครสวรรค์</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>นครสวรรค์</td>
+<td class="num pending-mid"><strong>17</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย การผลิตแบตเตอรี่</td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num pending-mid"><strong>16</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ควบคุมและประกันคุณภาพ/วางแผนการผลิต</td>
+<td>บริษัท ไมน์ โมบิลิตี คอร์ปอเรชั่น จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num pending-mid"><strong>15</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="card" style="margin-top:18px;">
+<div class="section-kicker">Request status</div>
+<h3>สรุปเพื่อติดตามต่อ สำหรับ Department Head แยกตามแผนก / บริษัท / Location</h3>
+<div class="note">ใช้คอลัมน์ <strong>ชื่อหน่วยงาน (ระดับ 4)</strong> เป็นตัวแบ่งแผนกหลัก และถ้าค่าว่างจะใช้ <strong>ชื่อบริษัท</strong> แทน โดย map ไฟล์ <strong>ขอเปลี่ยนแปลงข้อมูลส่วนตัว</strong> กับ <strong>emp_data_all</strong> ผ่านคอลัมน์ <strong>พนักงาน</strong></div>
+<div class="table-wrap">
+<div style="margin-bottom:12px; display:flex; gap:12px; flex-wrap:wrap;"><div style="position:relative;"><button id="deptFilterExecBtn" style="padding:8px 12px;border-radius:10px;border:1px solid #ccc;background:#fff;cursor:pointer;">เลือกแผนก</button><div id="deptFilterExec" style="display:none;position:absolute;top:40px;left:0;background:#fff;border:1px solid #ccc;border-radius:10px;padding:10px;max-height:200px;overflow:auto;z-index:1000;"></div></div><div style="position:relative;"><button id="companyFilterExecBtn" style="padding:8px 12px;border-radius:10px;border:1px solid #ccc;background:#fff;cursor:pointer;">เลือกบริษัท</button><div id="companyFilterExec" style="display:none;position:absolute;top:40px;left:0;background:#fff;border:1px solid #ccc;border-radius:10px;padding:10px;max-height:200px;overflow:auto;z-index:1000;"></div></div><div style="position:relative;"><button id="locationFilterExecBtn" style="padding:8px 12px;border-radius:10px;border:1px solid #ccc;background:#fff;cursor:pointer;">เลือก Location</button><div id="locationFilterExec" style="display:none;position:absolute;top:40px;left:0;background:#fff;border:1px solid #ccc;border-radius:10px;padding:10px;max-height:200px;overflow:auto;z-index:1000;"></div></div></div><table>
+<thead>
+<tr>
+<th>ชื่อหน่วยงาน (ระดับ 4)</th>
+<th>ชื่อบริษัท</th>
+<th>Location Name</th>
+<th class="num">Active</th>
+<th class="num">Finished</th>
+<th class="num">Submitted</th>
+<th class="num">Pending</th>
+<th class="num">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ฝ่าย โรงงานสายผลิตไบโอดีเซล</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>กบินทร์บุรี</td>
+<td class="num">119</td>
+<td class="num">13</td>
+<td class="num">3</td>
+<td class="num pending-high"><strong>103</strong></td>
+<td class="num"><strong>119</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย วิศวกรรมและการผลิต</td>
+<td>บริษัท ไมน์ โมบิลิตี คอร์ปอเรชั่น จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">33</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-high"><strong>32</strong></td>
+<td class="num"><strong>33</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการประกอบ</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">27</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-high"><strong>27</strong></td>
+<td class="num"><strong>27</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการเคลือบและทำสี</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">20</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-high"><strong>20</strong></td>
+<td class="num"><strong>20</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย การผลิต</td>
+<td>บริษัท อีเอ ไบโอ อินโนเวชั่น จำกัด</td>
+<td>ระยอง</td>
+<td class="num">39</td>
+<td class="num">6</td>
+<td class="num">13</td>
+<td class="num pending-high"><strong>20</strong></td>
+<td class="num"><strong>39</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย วิศวกรรมและการบำรุงรักษา</td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">33</td>
+<td class="num">0</td>
+<td class="num">14</td>
+<td class="num pending-mid"><strong>19</strong></td>
+<td class="num"><strong>33</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการเชื่อม</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">18</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>18</strong></td>
+<td class="num"><strong>18</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และบำรุงรักษา-นครสวรรค์</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>นครสวรรค์</td>
+<td class="num">19</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>17</strong></td>
+<td class="num"><strong>19</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย การผลิตแบตเตอรี่</td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">43</td>
+<td class="num">5</td>
+<td class="num">22</td>
+<td class="num pending-mid"><strong>16</strong></td>
+<td class="num"><strong>43</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ควบคุมและประกันคุณภาพ/วางแผนการผลิต</td>
+<td>บริษัท ไมน์ โมบิลิตี คอร์ปอเรชั่น จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">17</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>15</strong></td>
+<td class="num"><strong>17</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย บัญชี</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">23</td>
+<td class="num">8</td>
+<td class="num">1</td>
+<td class="num pending-mid"><strong>14</strong></td>
+<td class="num"><strong>23</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และบำรุงรักษา-นครศรีธรรมราช</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>นครศรีธรรมราช</td>
+<td class="num">15</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>14</strong></td>
+<td class="num"><strong>15</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย สำนักประธานเจ้าหน้าที่บริหาร </td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">17</td>
+<td class="num">3</td>
+<td class="num">1</td>
+<td class="num pending-mid"><strong>13</strong></td>
+<td class="num"><strong>17</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ควบคุมคุณภาพ</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">12</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>12</strong></td>
+<td class="num"><strong>12</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย บริหารงานทั่วไป</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">22</td>
+<td class="num">4</td>
+<td class="num">6</td>
+<td class="num pending-mid"><strong>12</strong></td>
+<td class="num"><strong>22</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย วิศวกรรมและการพัฒนา</td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">13</td>
+<td class="num">0</td>
+<td class="num">2</td>
+<td class="num pending-mid"><strong>11</strong></td>
+<td class="num"><strong>13</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย เทคโนโลยีสารสนเทศ </td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">18</td>
+<td class="num">7</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>11</strong></td>
+<td class="num"><strong>18</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และบำรุงรักษา-ชัยภูมิ</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>ชัยภูมิ</td>
+<td class="num">17</td>
+<td class="num">1</td>
+<td class="num">5</td>
+<td class="num pending-mid"><strong>11</strong></td>
+<td class="num"><strong>17</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย คลังสินค้าและโลจิสติกส์</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">11</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>11</strong></td>
+<td class="num"><strong>11</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย บริหาร</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">10</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>10</strong></td>
+<td class="num"><strong>10</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย การเงิน (รับ-จ่าย)</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">12</td>
+<td class="num">3</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>9</strong></td>
+<td class="num"><strong>12</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย บริหารเครื่องจักร</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">8</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>8</strong></td>
+<td class="num"><strong>8</strong></td>
+</tr>
+<tr>
+<td>SWM-ST200-ST300-ST400</td>
+<td>บริษัท สมาร์ท เวสท์ เมเนจเมนท์ จำกัด</td>
+<td>เกาะล้าน</td>
+<td class="num">8</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-mid"><strong>8</strong></td>
+<td class="num"><strong>8</strong></td>
+</tr>
+<tr>
+<td>EWMP-ST200-ST300-ST400</td>
+<td>บริษัท อีเอ เวสท์ แมเนจเม้นท์ ภูเก็ต จำกัด</td>
+<td>ภูเก็ต</td>
+<td class="num">29</td>
+<td class="num">13</td>
+<td class="num">8</td>
+<td class="num pending-mid"><strong>8</strong></td>
+<td class="num"><strong>29</strong></td>
+</tr>
+<tr>
+<td>ESM-ST200-ST304-ST400</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>งามวงศ์วาน</td>
+<td class="num">8</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>7</strong></td>
+<td class="num"><strong>8</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และบำรุงรักษา-ลพบุรี</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>ลพบุรี</td>
+<td class="num">8</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>7</strong></td>
+<td class="num"><strong>8</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย พัฒนากลยุทธ์ และวางแผนการลงทุน</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">10</td>
+<td class="num">3</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>7</strong></td>
+<td class="num"><strong>10</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย วิศวกรรมเรือ สนับสนุนและบริการ</td>
+<td>บริษัท ไมน์ โมบิลิตี รีเสิร์ช จำกัด</td>
+<td>สมุทรปราการ (ปู่เจ้าสมิงพราย)</td>
+<td class="num">8</td>
+<td class="num">0</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>7</strong></td>
+<td class="num"><strong>8</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย วิศวกรรมระบบไฟฟ้าควบคุม</td>
+<td>บริษัท ไมน์ โมบิลิตี รีเสิร์ช จำกัด</td>
+<td>สมุทรปราการ (ปู่เจ้าสมิงพราย)</td>
+<td class="num">8</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>7</strong></td>
+<td class="num"><strong>8</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย นักลงทุนสัมพันธ์และสื่อสารองค์กร</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">10</td>
+<td class="num">4</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>6</strong></td>
+<td class="num"><strong>10</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย รัฐกิจสัมพันธ์</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">10</td>
+<td class="num">3</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>6</strong></td>
+<td class="num"><strong>10</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และซ่อมบำรุง-ส่วนกลาง</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>AIA</td>
+<td class="num">8</td>
+<td class="num">1</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>6</strong></td>
+<td class="num"><strong>8</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย จัดซื้อจัดจ้าง</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">8</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>6</strong></td>
+<td class="num"><strong>8</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย วิศวกรรมระบบเครื่องกล</td>
+<td>บริษัท ไมน์ โมบิลิตี รีเสิร์ช จำกัด</td>
+<td>สมุทรปราการ (ปู่เจ้าสมิงพราย)</td>
+<td class="num">6</td>
+<td class="num">0</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>5</strong></td>
+<td class="num"><strong>6</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย การจัดการคุณภาพ</td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">8</td>
+<td class="num">0</td>
+<td class="num">3</td>
+<td class="num pending-low"><strong>5</strong></td>
+<td class="num"><strong>8</strong></td>
+</tr>
+<tr>
+<td>ESM-ST200-ST303-ST400</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>BTC</td>
+<td class="num">6</td>
+<td class="num">0</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>5</strong></td>
+<td class="num"><strong>6</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย กฎหมายและกำกับดูแลการปฏิบัติตามกฎระเบียบ</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">9</td>
+<td class="num">0</td>
+<td class="num">4</td>
+<td class="num pending-low"><strong>5</strong></td>
+<td class="num"><strong>9</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย การจัดการกระบวนการของสินค้าและบริการองค์รวม</td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">9</td>
+<td class="num">1</td>
+<td class="num">3</td>
+<td class="num pending-low"><strong>5</strong></td>
+<td class="num"><strong>9</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย เทคนิค</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">6</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>5</strong></td>
+<td class="num"><strong>6</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย วิศวกรรมโครงสร้าง</td>
+<td>บริษัท ไมน์ โมบิลิตี รีเสิร์ช จำกัด</td>
+<td>สมุทรปราการ (ปู่เจ้าสมิงพราย)</td>
+<td class="num">6</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>5</strong></td>
+<td class="num"><strong>6</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย โครงการพิเศษ</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">7</td>
+<td class="num">3</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>4</strong></td>
+<td class="num"><strong>7</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย บริหารจัดการอาคาร</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">4</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>4</strong></td>
+<td class="num"><strong>4</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย วางแผนการผลิต</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">4</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>4</strong></td>
+<td class="num"><strong>4</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการและซ่อมบำรุง</td>
+<td>บริษัท พลังงานมหานคร จำกัด</td>
+<td>กีรดา</td>
+<td class="num">10</td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num pending-low"><strong>4</strong></td>
+<td class="num"><strong>10</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ศูนย์ทดสอบ</td>
+<td>บริษัท ศูนย์ทดสอบแบตเตอรี่ ยานยนต์ไฟฟ้า และผลิตภัณฑ์อิเล็กทรอนิกส์ จำกัด</td>
+<td>ฉะเชิงเทรา (BEV)</td>
+<td class="num">5</td>
+<td class="num">0</td>
+<td class="num">2</td>
+<td class="num pending-low"><strong>3</strong></td>
+<td class="num"><strong>5</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">4</td>
+<td class="num">0</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>3</strong></td>
+<td class="num"><strong>4</strong></td>
+</tr>
+<tr>
+<td>EA-ST200-ST300-ST400</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">3</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>3</strong></td>
+<td class="num"><strong>3</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย อาชีวอนามัย ความปลอดภัย และสิ่งแวดล้อม</td>
+<td>บริษัท อีเอ ไบโอ อินโนเวชั่น จำกัด</td>
+<td>ระยอง</td>
+<td class="num">3</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>3</strong></td>
+<td class="num"><strong>3</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย เทคโนโลยีสารสนเทศ </td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">3</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>3</strong></td>
+<td class="num"><strong>3</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย พัฒนาความยั่งยืน</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">10</td>
+<td class="num">4</td>
+<td class="num">3</td>
+<td class="num pending-low"><strong>3</strong></td>
+<td class="num"><strong>10</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>กบินทร์บุรี</td>
+<td class="num">11</td>
+<td class="num">8</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>3</strong></td>
+<td class="num"><strong>11</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ตรวจสอบภายใน</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">5</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>3</strong></td>
+<td class="num"><strong>5</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย งานสนับสนุนเทคนิคและล่ามภาษาจีน</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>2</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>2</strong></td>
+</tr>
+<tr>
+<td>AEA-ST200-ST300-ST400</td>
+<td>บริษัท ท่าอากาศยาน พลังงานบริสุทธิ์ จำกัด</td>
+<td>AIA</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>2</strong></td>
+</tr>
+<tr>
+<td>ESM-ST200-ST304-ST400</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>กีรดา</td>
+<td class="num">6</td>
+<td class="num">3</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>6</strong></td>
+</tr>
+<tr>
+<td>FFT-ST200-ST300-ST400</td>
+<td>บริษัท ฟิวเจอร์ ฟอร์ ทูเดย์ จำกัด</td>
+<td>AIA</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>2</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">3</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>3</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ขายและวางแผนการตลาด</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">7</td>
+<td class="num">5</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>7</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย กลยุทธ์ทรัพยากรบุคคล</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">5</td>
+<td class="num">0</td>
+<td class="num">3</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>5</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ทรัพยากรบุคคล</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">4</td>
+<td class="num">0</td>
+<td class="num">2</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>4</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย จัดซื้อ</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>2</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ระบบมาตรฐานคุณภาพ และประกันภัย</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">3</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>3</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย พัฒนาธุรกิจ</td>
+<td>บริษัท พลังงานมหานคร จำกัด</td>
+<td>กีรดา</td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>4</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และบำรุงรักษา-ลำปาง</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>ลำปาง</td>
+<td class="num">22</td>
+<td class="num">3</td>
+<td class="num">17</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>22</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และบำรุงรักษา-พิษณุโลก</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>พิษณุโลก</td>
+<td class="num">24</td>
+<td class="num">6</td>
+<td class="num">16</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>24</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย บัญชี</td>
+<td>บริษัท แอ๊บโซลูท แอสเซมบลี จำกัด</td>
+<td>ฉะเชิงเทรา (AAB)</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>2</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย บัญชี</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">3</td>
+<td class="num">0</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>3</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และซ่อมบำรุง</td>
+<td>บริษัท พลังงานมหานคร จำกัด</td>
+<td>กีรดา</td>
+<td class="num">2</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>2</strong></td>
+<td class="num"><strong>2</strong></td>
+</tr>
+<tr>
+<td>AMT-ST200-ST300-ST400</td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ธุรการ</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>AIA</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย จัดซื้อจัดจ้าง</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">3</td>
+<td class="num">0</td>
+<td class="num">2</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>3</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม</td>
+<td>บริษัท ไมน์ โมบิลิตี คอร์ปอเรชั่น จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย พัฒนาความยั่งยืน</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>MMR-ST200-ST300-ST400</td>
+<td>บริษัท ไมน์ โมบิลิตี รีเสิร์ช จำกัด</td>
+<td>สมุทรปราการ (ปู่เจ้าสมิงพราย)</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย Engineering &amp; Construction</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>นครศรีธรรมราช</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย การเงิน</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">2</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>2</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ทรัพยากรบุคคล</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>กบินทร์บุรี</td>
+<td class="num">4</td>
+<td class="num">3</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>4</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ระบบคุณภาพ</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>กบินทร์บุรี</td>
+<td class="num">2</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>2</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ทรัพยากรบุคคลและบริหารงานทั่วไป</td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และซ่อมบำรุง</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>BTC</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย บริหารโครงการธุรกิจบริการสถานีอัดประจุไฟฟ้า</td>
+<td>บริษัท พลังงานมหานคร จำกัด</td>
+<td>กีรดา</td>
+<td class="num">3</td>
+<td class="num">1</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>3</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย พัฒนาธุรกิจ - Ev Conversion</td>
+<td>บริษัท ไมน์ โมบิลิตี รีเสิร์ช จำกัด</td>
+<td>สมุทรปราการ (ปู่เจ้าสมิงพราย)</td>
+<td class="num">5</td>
+<td class="num">1</td>
+<td class="num">3</td>
+<td class="num pending-low"><strong>1</strong></td>
+<td class="num"><strong>5</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ขายและการตลาด</td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">2</td>
+<td class="num">1</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>2</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย BIO R&amp;D </td>
+<td>บริษัท กรีน เทคโนโลยี รีเสิร์ช จำกัด</td>
+<td>สมุทรปราการ (ปู่เจ้าสมิงพราย)</td>
+<td class="num">17</td>
+<td class="num">10</td>
+<td class="num">12</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>17</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย กลยุทธ์ทรัพยากรบุคคล</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">4</td>
+<td class="num">2</td>
+<td class="num">3</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>4</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ความปลอดภัย อาชีวอนามัย และสิ่งแวดล้อม</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>AIA</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และซ่อมบำรุง</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>AIA</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ทรัพยากรบุคคลและบริหาร</td>
+<td>บริษัท อีเอ ไบโอ อินโนเวชั่น จำกัด</td>
+<td>ระยอง</td>
+<td class="num">1</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ทรัพยากรบุคคลและบริหารงานทั่วไป</td>
+<td>บริษัท ไมน์ โมบิลิตี คอร์ปอเรชั่น จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">1</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ทรัพยากรบุคคล</td>
+<td>บริษัท พลังงานบริสุทธิ์ จำกัด (มหาชน)</td>
+<td>AIA</td>
+<td class="num">12</td>
+<td class="num">9</td>
+<td class="num">7</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>12</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย ปฏิบัติการ และซ่อมบำรุง</td>
+<td>บริษัท เอ็นเนอร์จี โซลูชั่น เมเนจเมนท์ จำกัด</td>
+<td>กีรดา</td>
+<td class="num">1</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย พัฒนาธุรกิจและบริหารโครงการ</td>
+<td>บริษัท อีเอ เวสท์ แมเนจเม้นท์ ภูเก็ต จำกัด</td>
+<td>AIA</td>
+<td class="num">1</td>
+<td class="num">0</td>
+<td class="num">1</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>1</strong></td>
+</tr>
+<tr>
+<td>ฝ่าย เทคโนโลยีสารสนเทศ </td>
+<td>บริษัท อมิตา เทคโนโลยี (ประเทศไทย) จำกัด</td>
+<td>ฉะเชิงเทรา</td>
+<td class="num">3</td>
+<td class="num">1</td>
+<td class="num">2</td>
+<td class="num pending-low"><strong>0</strong></td>
+<td class="num"><strong>3</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="footer-note">หมายเหตุ: ถ้าไฟล์คำขอมีหลายเอกสารจากพนักงานคนเดียว ระบบจะนับเป็น Submitted 1 คนในตารางนี้ เพื่อไม่ให้ซ้ำกับจำนวน Active</div>
+</div>
+</div>
+<script>
+const table = document.querySelectorAll("table")[document.querySelectorAll("table").length-1];
+const rows = table.querySelectorAll("tbody tr");
+
+const filters = {
+  deptFilterExec: new Set(),
+  companyFilterExec: new Set(),
+  locationFilterExec: new Set()
+};
+
+function populateExecFilters() {
+    const sets = [new Set(), new Set(), new Set()];
+    rows.forEach(row => {
+        const cells = row.querySelectorAll("td");
+        sets[0].add(cells[0].innerText);
+        sets[1].add(cells[1].innerText);
+        sets[2].add(cells[2].innerText);
+    });
+
+    ["deptFilterExec","companyFilterExec","locationFilterExec"].forEach((id,i)=>{
+        const container = document.getElementById(id);
+        sets[i].forEach(val=>{
+            const label = document.createElement("label");
+            label.style.display="block";
+            const checkbox = document.createElement("input");
+            checkbox.type="checkbox";
+            checkbox.value=val;
+            checkbox.addEventListener("change",(e)=>{
+                if(e.target.checked){ filters[id].add(val); }
+                else{ filters[id].delete(val); }
+                applyExecFilter();
+            });
+            label.appendChild(checkbox);
+            label.append(" "+val);
+            container.appendChild(label);
+        });
+    });
+}
+
+function applyExecFilter(){
+    rows.forEach(row=>{
+        const cells=row.querySelectorAll("td");
+        const match =
+            (filters.deptFilterExec.size===0 || filters.deptFilterExec.has(cells[0].innerText)) &&
+            (filters.companyFilterExec.size===0 || filters.companyFilterExec.has(cells[1].innerText)) &&
+            (filters.locationFilterExec.size===0 || filters.locationFilterExec.has(cells[2].innerText));
+        row.style.display = match ? "" : "none";
+    });
+}
+
+["deptFilterExec","companyFilterExec","locationFilterExec"].forEach(id=>{
+    const btn=document.getElementById(id+"Btn");
+    const dropdown=document.getElementById(id);
+    btn.addEventListener("click",()=>{
+        dropdown.style.display = dropdown.style.display==="none" ? "block" : "none";
+    });
+});
+
+populateExecFilters();
+</script></body>
+</html>
