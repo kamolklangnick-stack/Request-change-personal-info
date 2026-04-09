@@ -122,7 +122,7 @@ tbody tr:hover{background:#f5f8ff}
   <div style="background:#fff;border:1px solid #86efac;border-radius:16px;padding:18px 24px;min-width:200px;text-align:left">
     <div style="font-size:10px;font-weight:700;letter-spacing:.1em;color:#166534;margin-bottom:6px">ACTION REQUIRED NOW</div>
     <div style="font-size:52px;font-weight:900;color:#14532d;line-height:1;margin-bottom:6px" id="banner-pending">—</div>
-    <div style="font-size:12px;color:#166534;font-weight:600;margin-bottom:10px">คนยังคงเหลือติดตาม (<span id="banner-pct">—</span> ของ Active)</div>
+    <div style="font-size:12px;color:#166534;font-weight:600;margin-bottom:10px">คน Not start (<span id="banner-pct">—</span> ของ Active)</div>
     <ul style="list-style:disc;padding-left:18px;font-size:12px;color:#166534;line-height:1.9">
       <li>Active ทั้งหมด 968 คน</li>
       <li>ข้อมูลครบถ้วนแล้ว <span id="banner-fin">—</span> คน</li>
@@ -133,7 +133,7 @@ tbody tr:hover{background:#f5f8ff}
 
 <div class="card">
   <span class="badge">HR Dashboard</span>
-  <span class="badge" style="background:#fef3c7;color:#92400e">↓ เรียงจาก Pending มากไปน้อย</span>
+  <span class="badge" style="background:#fef3c7;color:#92400e">↓ เรียงจาก Not start มากไปน้อย</span>
   <span class="badge-upd">✓ อัปเดต 9 เม.ย. 2569 (ไฟล์ที่ 15)</span>
   <h1 style="margin-top:10px">สรุปติดตาม Department Head</h1>
   <div class="sub">แยกตามแผนก / บริษัท / Location &nbsp;|&nbsp; ไฟล์ที่ 15: 1–9 เม.ย. 2569 &nbsp;|&nbsp; emp_data_all ณ 9 เม.ย. 2569 (ล่าสุด)</div>
@@ -143,7 +143,7 @@ tbody tr:hover{background:#f5f8ff}
     <div class="kpi green"><small>Finished</small><strong>162</strong><span>16.7% — ข้อมูลครบถ้วนแล้ว</span></div>
     <div class="kpi" style="background:linear-gradient(135deg,#f59e0b,#fcd34d);color:#111827"><small>Unfinish</small><strong>61</strong><span>6.3% — ระบบบอก Finish แต่ข้อมูลยังขาด</span></div>
     <div class="kpi indigo"><small>Submitted</small><strong>192</strong><span>19.8% — ยื่นคำขอแล้ว</span></div>
-    <div class="kpi amber"><small>Pending</small><strong>614</strong><span>63.4% — คงเหลือติดตาม</span></div>
+    <div class="kpi amber"><small>Not start</small><strong>614</strong><span>63.4% — คงเหลือติดตาม</span></div>
   </div>
 
   <div class="status-row">
@@ -165,7 +165,7 @@ tbody tr:hover{background:#f5f8ff}
       <div class="seg" id="sb3" style="width:0%;background:#dc2626">ไม่อนุมัติ</div>
       <div class="seg" id="sb4" style="width:0%;background:#3b82f6">ร่าง</div>
       <div class="seg" id="sb5" style="width:0%;background:#94a3b8">ยกเลิก</div>
-      <div class="seg" id="sb6" style="width:0%;background:#e2e8f0;color:#64748b">ยังไม่ดำเนินการ</div>
+      <div class="seg" id="sb6" style="width:0%;background:#e2e8f0;color:#64748b">Not start</div>
     </div>
     <div class="bar-legend">
       <span class="bl"><span class="bld" style="background:#059669"></span>Finished <b>180 คน</b> — 18.6%</span>
@@ -174,13 +174,14 @@ tbody tr:hover{background:#f5f8ff}
       <span class="bl"><span class="bld" style="background:#dc2626"></span>ไม่อนุมัติ <b>30 คน</b> — 3.1%</span>
       <span class="bl"><span class="bld" style="background:#3b82f6"></span>ร่าง <b>13 คน</b> — 1.3%</span>
       <span class="bl"><span class="bld" style="background:#94a3b8"></span>ยกเลิก <b>1 คน</b> — 0.1%</span>
-      <span class="bl"><span class="bld" style="background:#e2e8f0;border:1px solid #cbd5e1"></span>ยังไม่ดำเนินการ <b>583 คน</b> — 60.2%</span>
+      <span class="bl"><span class="bld" style="background:#e2e8f0;border:1px solid #cbd5e1"></span>Not start <b>583 คน</b> — 60.2%</span>
     </div>
     <div class="insight-row">
       <div class="ic"><div class="ic-lbl">Finished จริง (ครบ 15 fields)</div><div class="ic-val g">162 คน / 16.7%</div></div>
       <div class="ic"><div class="ic-lbl">Unfinish (ระบบบอก Finish แต่ยังขาด)</div><div class="ic-val" style="color:#d97706">61 คน / 6.3%</div></div>
       <div class="ic"><div class="ic-lbl">ดำเนินการแล้ว (Finished + ยื่น)</div><div class="ic-val">354 คน / 36.6%</div></div>
-      <div class="ic"><div class="ic-lbl">คงเหลือต้องติดตาม</div><div class="ic-val a">614 คน / 63.4%</div></div>
+      <div class="ic"><div class="ic-lbl">Not start (ยังไม่เริ่ม)</div><div class="ic-val a">614 คน / 63.4%</div></div>
+      <div class="ic" style="border-right:none"><div class="ic-lbl">%Unfinish (ยังไม่เสร็จสิ้น)</div><div class="ic-val" id="pct-unfinish" style="color:#dc2626;font-weight:700">—</div></div>
     </div>
   </div>
   </div>
@@ -361,10 +362,12 @@ tbody tr:hover{background:#f5f8ff}
         <th>หมายเหตุ (field ที่ยังว่าง)</th>
         <th class="num">Active</th>
         <th class="num">Finished ✓</th>
+        <th class="num" style="color:#059669">%Finished</th>
         <th class="num" style="color:#d97706">Unfinish ⚠</th>
         <th class="num">Submitted</th>
-        <th class="num">Pending ▼</th>
-        <th class="num">%Pending</th>
+        <th class="num">Not start ▼</th>
+        <th class="num">%Not start</th>
+        <th class="num" style="color:#dc2626">%Unfinish</th>
       </tr></thead>
       <tbody id="tbody"></tbody>
     </table>
@@ -381,32 +384,32 @@ tbody tr:hover{background:#f5f8ff}
         <tr><td>Active</td><td>968</td><td>968</td><td><span class="delta dn">—</span></td></tr>
         <tr><td>Finished (จริง)</td><td>223</td><td>162</td><td><span class="delta dd">−61</span></td></tr>
         <tr><td>Submitted</td><td>165</td><td>192</td><td><span class="delta dd">+27</span></td></tr>
-        <tr><td>Pending</td><td>580</td><td>614</td><td><span class="delta dd">+34</span></td></tr>
-        <tr><td>%Pending</td><td>59.9%</td><td>63.4%</td><td><span class="delta dd">+3.5%</span></td></tr>
+        <tr><td>Not start</td><td>580</td><td>614</td><td><span class="delta dd">+34</span></td></tr>
+        <tr><td>%Not start</td><td>59.9%</td><td>63.4%</td><td><span class="delta dd">+3.5%</span></td></tr>
         <tr><td>รออนุมัติ</td><td>69 คน</td><td>75 คน</td><td><span class="delta dd">+6</span></td></tr>
       </table>
       <div class="tb"><p>📌 รออนุมัติลดลง (−49 คน) Finished เพิ่มขึ้น +43 คน แสดงถึงความคืบหน้าที่ดี</p></div>
     </div>
     <div class="ab">
-      <h3>🔍 ทำไมตัวเลข Pending ยังสูง?</h3>
+      <h3>🔍 ทำไมตัวเลข Not start ยังสูง?</h3>
       <ul>
-        <li><strong>อมิตา เทคโนโลยี</strong> — Pending 240+ คน, Submitted ≈ 0 ยังไม่มีการยื่นเลย</li>
-        <li><strong>AAB (แอ๊บโซลูท แอสเซมบลี)</strong> — Pending 130+ คน, Submitted = 0</li>
-        <li><strong>EA โรงงานไบโอดีเซล กบินทร์บุรี</strong> — Pending สูงมาก</li>
-        <li><strong>Mine Mobility</strong> — Pending 48+ คน ใกล้ศูนย์ Submitted</li>
+        <li><strong>อมิตา เทคโนโลยี</strong> — Not start 240+ คน, Submitted ≈ 0 ยังไม่มีการยื่นเลย</li>
+        <li><strong>AAB (แอ๊บโซลูท แอสเซมบลี)</strong> — Not start 130+ คน, Submitted = 0</li>
+        <li><strong>EA โรงงานไบโอดีเซล กบินทร์บุรี</strong> — Not start สูงมาก</li>
+        <li><strong>Mine Mobility</strong> — Not start 48+ คน ใกล้ศูนย์ Submitted</li>
         <li>มีชื่อพนักงาน <strong>7 รายในไฟล์คำขอที่ไม่พบในฐาน emp</strong></li>
         <li>รออนุมัติ <strong>122 คน</strong> — คลื่นใหม่ต้องเร่ง approve</li>
       </ul>
-      <div class="hb"><p>⚠️ กลุ่มบริษัทฝ่ายการผลิต (อมิตา+AAB+Mine) รวม Pending 400+ คน ยังไม่มีการยื่นเลย ต้อง Escalate ผู้บริหาร</p></div>
+      <div class="hb"><p>⚠️ กลุ่มบริษัทฝ่ายการผลิต (อมิตา+AAB+Mine) รวม Not start 400+ คน ยังไม่มีการยื่นเลย ต้อง Escalate ผู้บริหาร</p></div>
     </div>
     <div class="ab">
       <h3>🚨 จุดเสี่ยงสูงสุด</h3>
       <ul>
-        <li><strong>อมิตา — ฝ่ายผลิตแบตเตอรี่ (ฉะเชิงเทรา)</strong> Pending ≈115 คน (98%+)</li>
-        <li><strong>EA — โรงงานไบโอดีเซล (กบินทร์บุรี)</strong> Pending ≈114 คน</li>
-        <li><strong>อมิตา — วิศวกรรมและการบำรุงรักษา</strong> Pending ≈52 คน (100%)</li>
-        <li><strong>Mine Mobility — วิศวกรรมและการผลิต</strong> Pending ≈31 คน</li>
-        <li><strong>AAB — ปฏิบัติการ 3 แผนก</strong> รวม Pending ≈65 คน (100%)</li>
+        <li><strong>อมิตา — ฝ่ายผลิตแบตเตอรี่ (ฉะเชิงเทรา)</strong> Not start ≈115 คน (98%+)</li>
+        <li><strong>EA — โรงงานไบโอดีเซล (กบินทร์บุรี)</strong> Not start ≈114 คน</li>
+        <li><strong>อมิตา — วิศวกรรมและการบำรุงรักษา</strong> Not start ≈52 คน (100%)</li>
+        <li><strong>Mine Mobility — วิศวกรรมและการผลิต</strong> Not start ≈31 คน</li>
+        <li><strong>AAB — ปฏิบัติการ 3 แผนก</strong> รวม Not start ≈65 คน (100%)</li>
       </ul>
       <div class="wb"><p>⚠️ กลุ่มเสี่ยงเหล่านี้ไม่เปลี่ยนแปลงจากรอบก่อน — ต้องการการแทรกแซงจากผู้บริหารโดยตรง</p></div>
     </div>
@@ -523,7 +526,7 @@ function toggleEmp(btn, gid){
 
 function renderTable(data){
   document.getElementById('fcnt').textContent='แสดง '+data.length+' จาก '+ALL.length+' กลุ่ม';
-  if(!data.length){document.getElementById('tbody').innerHTML='<tr><td colspan="11" class="no-data">ไม่พบข้อมูลที่ตรงเงื่อนไข</td></tr>';return;}
+  if(!data.length){document.getElementById('tbody').innerHTML='<tr><td colspan="13" class="no-data">ไม่พบข้อมูลที่ตรงเงื่อนไข</td></tr>';return;}
   const sT=data.reduce((a,r)=>a+r.total,0),sF=data.reduce((a,r)=>a+r.finished,0);
   const sUM=data.reduce((a,r)=>a+(r.unfinish_marked||0),0);
   const sS=data.reduce((a,r)=>a+r.submitted,0),sP=data.reduce((a,r)=>a+r.not_yet,0);
@@ -545,13 +548,15 @@ function renderTable(data){
       <td class="dept-missing-cell">${dmHtml}</td>
       <td class="num">${r.total}</td>
       <td class="num">${r.finished}</td>
+      <td class="num" style="color:#059669;font-weight:600">${r.total>0?(((r.finished/r.total)*100).toFixed(1))+'%':'—'}</td>
       ${umCell}
       <td class="num">${r.submitted}</td>
       <td class="num ${pc}"><strong>${p}</strong></td>
       <td class="num">${pct}%</td>
+      <td class="num" style="color:#dc2626;font-weight:600">${r.total>0?(((r.total-r.finished)/r.total)*100).toFixed(1)+'%':'—'}</td>
     </tr>`;
     // Employee sub-rows
-    h+=`<tr class="emp-rows" id="eg-${gid}"><td colspan="11" style="padding:0">`;
+    h+=`<tr class="emp-rows" id="eg-${gid}"><td colspan="13" style="padding:0">`;
     h+=`<table style="width:100%;border-collapse:collapse">`;
     emps.forEach((emp,ei)=>{
       const sc=empStatusClass(emp.status, emp.truly_finished, emp.emp_req_check);
@@ -569,7 +574,8 @@ function renderTable(data){
     });
     h+=`</table></td></tr></tbody>`;
   });
-  h+=`<tfoot><tr class="total-row"><td colspan="5">ผลรวม (${data.length} กลุ่ม)</td><td class="num">${sT.toLocaleString()}</td><td class="num">${sF}</td><td class="num" style="color:#d97706">${sUM}</td><td class="num">${sS}</td><td class="num ph">${sP.toLocaleString()}</td><td class="num">${sT>0?((sP/sT)*100).toFixed(1)+'%':'—'}</td></tr></tfoot>`;
+  const pctUnfinishFiltered=sT>0?(((sT-sF)/sT)*100).toFixed(1)+'%':'—';
+  h+=`<tfoot><tr class="total-row"><td colspan="5">ผลรวม (${data.length} กลุ่ม)</td><td class="num">${sT.toLocaleString()}</td><td class="num">${sF}</td><td class="num" style="color:#059669;font-weight:700">${sT>0?((sF/sT)*100).toFixed(1)+'%':'—'}</td><td class="num" style="color:#d97706">${sUM}</td><td class="num">${sS}</td><td class="num ph">${sP.toLocaleString()}</td><td class="num">${sT>0?((sP/sT)*100).toFixed(1)+'%':'—'}</td><td class="num" style="color:#dc2626;font-weight:700">${pctUnfinishFiltered}</td></tr></tfoot>`;
   document.getElementById('tbody').innerHTML=h;
 }
 
@@ -580,16 +586,24 @@ renderTable(ALL);
   const totalActive=968;
   const fin=ALL.reduce((a,r)=>a+r.finished,0);
   const sub=ALL.reduce((a,r)=>a+r.submitted,0);
-  const pending=ALL.reduce((a,r)=>a+r.not_yet,0);
-  const pct=((pending/totalActive)*100).toFixed(1);
+  const notStart=ALL.reduce((a,r)=>a+r.not_yet,0);
+  const pct=((notStart/totalActive)*100).toFixed(1);
   const subItems=ALL.reduce((a,r)=>a+(r.approved||0)+(r.pending_amt||0)+(r.rejected||0)+(r.draft||0)+(r.cancelled||0),0);
-  document.getElementById('banner-pending').textContent=pending.toLocaleString();
+  // %Unfinish = ทุกคนที่ยังไม่ Finished จริง (ไม่ว่าจะเป็นสถานะใด)
+  const totalAll=ALL.reduce((a,r)=>a+r.total,0);
+  const unfinishCount=totalAll-fin;
+  const pctUnfinish=((unfinishCount/totalActive)*100).toFixed(1);
+  document.getElementById('banner-pending').textContent=notStart.toLocaleString();
   document.getElementById('banner-pct').textContent=pct+'%';
   document.getElementById('banner-fin').textContent=fin;
   document.getElementById('banner-sub-people').textContent=sub;
   document.getElementById('banner-sub-items').textContent=subItems;
+  if(document.getElementById('pct-unfinish')){
+    document.getElementById('pct-unfinish').textContent=unfinishCount.toLocaleString()+' คน / '+pctUnfinish+'%';
+  }
   // verify balance
-  console.log('Balance check: Finished+Submitted+Pending='+(fin+sub+pending)+' Active='+totalActive);
+  console.log('Balance check: Finished+Submitted+NotStart='+(fin+sub+notStart)+' Active='+totalActive);
+  console.log('%Unfinish: '+pctUnfinish+'% ('+unfinishCount+' คน จาก '+totalActive+' Active)');
 })();
 </script>
 </body>
